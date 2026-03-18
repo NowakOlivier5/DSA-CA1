@@ -12,10 +12,11 @@ public class GUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUI.class.getName());
 
-    String input, displayText;
+    String input;
     laptopList mySLL = new laptopList();
     public GUI() {
         initComponents();
+        setLocationRelativeTo(null); //centres window
     }
 
     /**
@@ -32,42 +33,42 @@ public class GUI extends javax.swing.JFrame {
         TextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        listBtn = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1080, 720));
-        setPreferredSize(new java.awt.Dimension(1080, 720));
+        setMinimumSize(new java.awt.Dimension(640, 480));
+        setPreferredSize(new java.awt.Dimension(640, 480));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         addBtn.setText("Add Laptop");
         addBtn.addActionListener(this::addBtnActionPerformed);
-        getContentPane().add(addBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 260, 110, 30));
+        getContentPane().add(addBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 110, 30));
 
         jButton2.setText("Rent Laptop");
         jButton2.addActionListener(this::jButton2ActionPerformed);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 100, 30));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 100, 30));
 
         TextField.setText("LaptopID...");
         TextField.addActionListener(this::TextFieldActionPerformed);
-        getContentPane().add(TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 340, 30));
+        getContentPane().add(TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 340, 30));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 48)); // NOI18N
         jLabel1.setText("Laptop Rental");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 310, 80));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 310, 80));
 
         jButton3.setText("Return Laptop");
         jButton3.addActionListener(this::jButton3ActionPerformed);
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 110, 30));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, 110, 30));
 
-        jButton4.setText("View Laptops");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 350, 110, 30));
+        listBtn.setText("View Laptops");
+        listBtn.addActionListener(this::listBtnActionPerformed);
+        getContentPane().add(listBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 110, 30));
 
         jButton5.setText("View History");
         jButton5.addActionListener(this::jButton5ActionPerformed);
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 390, 110, 30));
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, 110, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -75,6 +76,7 @@ public class GUI extends javax.swing.JFrame {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         input = TextField.getText();
+        mySLL.add(input);
         System.out.print(input+"added to list");
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -90,9 +92,12 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void listBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        listGUI myGUI = new listGUI(); //switch window to listgui
+        myGUI.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_listBtnActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -128,8 +133,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton addBtn;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton listBtn;
     // End of variables declaration//GEN-END:variables
 }
