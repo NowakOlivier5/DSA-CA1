@@ -16,10 +16,15 @@ public class historyGUI extends javax.swing.JFrame {
      * Creates new form historyGUI
      */
     private laptopList myList;// to keep list saved between windows
+    private rentalHistory history;// to keep same history stack
     
-    public historyGUI(laptopList mySLL) {
+    public historyGUI(laptopList mySLL, rentalHistory historyStack) {
         this.myList = mySLL;
         initComponents();
+        setLocationRelativeTo(null); //centres window
+        this.history = historyStack;
+        String stackString = history.displayStack().replace("; ", "\n"); //splits history into lines
+        historyTextArea.setText(stackString);
     }
 
     /**
@@ -32,8 +37,9 @@ public class historyGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        historyTextField = new javax.swing.JTextField();
         backBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        historyTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(640, 480));
@@ -44,20 +50,18 @@ public class historyGUI extends javax.swing.JFrame {
         jLabel1.setText("History");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, 90, 41));
 
-        historyTextField.setEditable(false);
-        historyTextField.addActionListener(this::historyTextFieldActionPerformed);
-        getContentPane().add(historyTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 170, 240));
-
         backBtn.setText("Back");
         backBtn.addActionListener(this::backBtnActionPerformed);
         getContentPane().add(backBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 390, -1, -1));
 
+        historyTextArea.setColumns(20);
+        historyTextArea.setRows(5);
+        jScrollPane1.setViewportView(historyTextArea);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 270, 260));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void historyTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_historyTextFieldActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
@@ -90,7 +94,8 @@ public class historyGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
-    private javax.swing.JTextField historyTextField;
+    private javax.swing.JTextArea historyTextArea;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

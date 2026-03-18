@@ -16,10 +16,13 @@ public class GUI extends javax.swing.JFrame {
 
     String input;
     listInterface mySLL = new laptopList();
+    private rentalHistory historyStack;
+    
     public GUI(laptopList list) { //recieve list when coming back
         initComponents();
         setLocationRelativeTo(null); //centres window
         this.mySLL = list;
+        this.historyStack = new rentalHistory();
     }
 
     /**
@@ -86,7 +89,8 @@ public class GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Enter a laptop ID");
         }else{
             mySLL.add(input);
-            System.out.print(input+"added to list");
+            historyStack.push("Laptop ID: " + input + " added.");
+            JOptionPane.showMessageDialog(this,"Laptop ID: " + input + " added.");
         }     
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -100,10 +104,11 @@ public class GUI extends javax.swing.JFrame {
             if (node == null) {
                 JOptionPane.showMessageDialog(this, "Laptop not found.");
             } else if (!node.getAvailable()) {
-                JOptionPane.showMessageDialog(this, input + " is already rented.");
+                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " is already rented.");
             } else {
                 node.setAvailable(false);
-                JOptionPane.showMessageDialog(this, input + " rented successfully.");
+                historyStack.push("Laptop ID: " + input + " rented.");
+                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " rented successfully.");
             }
         }  
     }//GEN-LAST:event_rentBtnActionPerformed
@@ -122,10 +127,11 @@ public class GUI extends javax.swing.JFrame {
             if (node == null) {
                 JOptionPane.showMessageDialog(this, "Laptop not found.");
             } else if (node.getAvailable()) {
-                JOptionPane.showMessageDialog(this, input + " is not currently rented out.");
+                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " is not currently rented out.");
             } else {
                 node.setAvailable(true);
-                JOptionPane.showMessageDialog(this, input + " returned successfully.");
+                historyStack.push("Laptop ID: " + input + " returned.");
+                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " returned successfully.");
             }
         }  
     }//GEN-LAST:event_returnBtnActionPerformed
@@ -139,7 +145,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
         // TODO add your handling code here:
-        historyGUI myGUI = new historyGUI((laptopList)mySLL); //switch window to listgui and pass list
+        historyGUI myGUI = new historyGUI((laptopList)mySLL, historyStack); //switch window to listgui and pass list
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_historyBtnActionPerformed
