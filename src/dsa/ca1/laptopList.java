@@ -8,7 +8,7 @@ package dsa.ca1;
  * based off of classwork and moodle example "SinglyLinkedListApp"
  * @author Olivier Nowak
  */
-public class laptopList {
+public class laptopList implements listInterface{
 
     private laptop head;
     private int iSize;

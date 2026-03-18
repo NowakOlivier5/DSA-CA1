@@ -6,7 +6,7 @@ package dsa.ca1;
 
 /**
  * based off of classwork and moodle example "SinglyLinkedListApp"
- * @author Olivier
+ * @author Olivier Nowak
  */
 public class laptop {
     private Object element;

@@ -15,7 +15,7 @@ public class GUI extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUI.class.getName());
 
     String input;
-    laptopList mySLL = new laptopList();
+    listInterface mySLL = new laptopList();
     public GUI(laptopList list) { //recieve list when coming back
         initComponents();
         setLocationRelativeTo(null); //centres window
@@ -37,7 +37,8 @@ public class GUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         returnBtn = new javax.swing.JButton();
         listBtn = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        historyBtn = new javax.swing.JButton();
+        queueBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(640, 480));
@@ -53,7 +54,6 @@ public class GUI extends javax.swing.JFrame {
         rentBtn.addActionListener(this::rentBtnActionPerformed);
         getContentPane().add(rentBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 100, 30));
 
-        TextField.setText("LaptopID...");
         TextField.addActionListener(this::TextFieldActionPerformed);
         getContentPane().add(TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 340, 30));
 
@@ -67,11 +67,14 @@ public class GUI extends javax.swing.JFrame {
 
         listBtn.setText("View Laptops");
         listBtn.addActionListener(this::listBtnActionPerformed);
-        getContentPane().add(listBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 110, 30));
+        getContentPane().add(listBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 110, 30));
 
-        jButton5.setText("View History");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, 110, 30));
+        historyBtn.setText("View History");
+        historyBtn.addActionListener(this::historyBtnActionPerformed);
+        getContentPane().add(historyBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 110, 30));
+
+        queueBtn.setText("Check Queue");
+        getContentPane().add(queueBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 370, 110, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -129,14 +132,17 @@ public class GUI extends javax.swing.JFrame {
 
     private void listBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listBtnActionPerformed
         // TODO add your handling code here:
-        listGUI myGUI = new listGUI(mySLL); //switch window to listgui and pass list
+        listGUI myGUI = new listGUI((laptopList)mySLL); //switch window to listgui and pass list
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_listBtnActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        historyGUI myGUI = new historyGUI((laptopList)mySLL); //switch window to listgui and pass list
+        myGUI.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_historyBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,9 +173,10 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TextField;
     private javax.swing.JButton addBtn;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton historyBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton listBtn;
+    private javax.swing.JButton queueBtn;
     private javax.swing.JButton rentBtn;
     private javax.swing.JButton returnBtn;
     // End of variables declaration//GEN-END:variables
