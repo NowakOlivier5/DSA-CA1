@@ -22,18 +22,6 @@ public class laptopList {
         prevNode = null;
     }
 
-    public boolean isEmpty() {
-        if (iSize == 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public int size() {
-        return iSize;
-    }
-
     public void add(int iPosition, Object theElement) {
         if (iPosition == 1) {
             laptop newNode = new laptop(theElement, head);
@@ -57,21 +45,6 @@ public class laptopList {
         iSize = iSize + 1;
     }
 
-    public Object get(int iPosition) {
-        setCurrent(iPosition);
-        return currNode;
-    }
-
-    public void remove(int iPosition) {
-        if (iPosition == 1) {
-            head = head.getNext();
-        } else {
-            setCurrent(iPosition);
-            prevNode.setNext(currNode.getNext());
-        }
-        iSize = iSize - 1;
-    }
-
     private void setCurrent(int iPosition) {
         int iCount;
         prevNode = null;
@@ -81,12 +54,16 @@ public class laptopList {
             currNode = currNode.getNext();
         }
     }
-                                
-    public void printList() {
-        laptop tempNode = head;
-        while (tempNode != null) {
-            System.out.println(tempNode.toString());
-            tempNode = tempNode.getNext();
-        }
+    
+    public String getList() {
+    StringBuilder sb = new StringBuilder();
+    laptop tempNode = head;
+
+    while (tempNode != null) {
+        sb.append(tempNode.toString()).append("\n");
+        tempNode = tempNode.getNext();
     }
+
+    return sb.toString();
+}
 }

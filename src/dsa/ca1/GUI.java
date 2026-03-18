@@ -14,9 +14,10 @@ public class GUI extends javax.swing.JFrame {
 
     String input;
     laptopList mySLL = new laptopList();
-    public GUI() {
+    public GUI(laptopList list) { //recieve list when coming back
         initComponents();
         setLocationRelativeTo(null); //centres window
+        this.mySLL = list;
     }
 
     /**
@@ -94,7 +95,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void listBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listBtnActionPerformed
         // TODO add your handling code here:
-        listGUI myGUI = new listGUI(); //switch window to listgui
+        listGUI myGUI = new listGUI(mySLL); //switch window to listgui and pass list
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_listBtnActionPerformed
@@ -125,7 +126,8 @@ public class GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GUI().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> { laptopList list = new laptopList(); new GUI(list).setVisible(true);
+});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

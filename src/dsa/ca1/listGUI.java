@@ -15,11 +15,19 @@ public class listGUI extends javax.swing.JFrame {
     /**
      * Creates new form listGUI
      */
-    public listGUI() {
+    private laptopList myList;
+    
+    public listGUI(laptopList mySLL) { //recieve list
         initComponents();
         setLocationRelativeTo(null); //centres window
+        this.myList = mySLL;
+        displayList();
     }
-
+    
+    private void displayList() {
+    listDisplay.setText(""); // clear text so it doesnt break on window switch
+    listDisplay.setText(myList.getList()); //get string and display
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +68,7 @@ public class listGUI extends javax.swing.JFrame {
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
-        GUI myGUI = new GUI(); //switch window to main menu
+        GUI myGUI = new GUI(myList); //switch window to main menu
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
@@ -86,8 +94,6 @@ public class listGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new listGUI().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
