@@ -65,5 +65,16 @@ public class laptopList {
     }
 
     return sb.toString();
-}
+    }
+    
+    public laptop findLaptop(String ID) {//get laptop with corresponding ID
+    laptop current = head; //start with head
+    while (current != null) { //check whole list
+        if (current.getElement().toString().equals(ID)) {//checks if ID is correct
+            return current;//return corresponding laptop
+        }
+        current = current.getNext();//check next
+        }
+    return null; //return empty
+    }
 }

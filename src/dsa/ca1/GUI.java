@@ -4,6 +4,8 @@
  */
 package dsa.ca1;
 
+import javax.swing.*;
+
 /**
  *
  * @author Olivier Nowak
@@ -30,10 +32,10 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         addBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        rentBtn = new javax.swing.JButton();
         TextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        returnBtn = new javax.swing.JButton();
         listBtn = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
@@ -47,9 +49,9 @@ public class GUI extends javax.swing.JFrame {
         addBtn.addActionListener(this::addBtnActionPerformed);
         getContentPane().add(addBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 110, 30));
 
-        jButton2.setText("Rent Laptop");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 100, 30));
+        rentBtn.setText("Rent Laptop");
+        rentBtn.addActionListener(this::rentBtnActionPerformed);
+        getContentPane().add(rentBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 100, 30));
 
         TextField.setText("LaptopID...");
         TextField.addActionListener(this::TextFieldActionPerformed);
@@ -59,9 +61,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Laptop Rental");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 310, 80));
 
-        jButton3.setText("Return Laptop");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, 110, 30));
+        returnBtn.setText("Return Laptop");
+        returnBtn.addActionListener(this::returnBtnActionPerformed);
+        getContentPane().add(returnBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, 110, 30));
 
         listBtn.setText("View Laptops");
         listBtn.addActionListener(this::listBtnActionPerformed);
@@ -77,21 +79,53 @@ public class GUI extends javax.swing.JFrame {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         input = TextField.getText();
-        mySLL.add(input);
-        System.out.print(input+"added to list");
+        if(input.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter a laptop ID");
+        }else{
+            mySLL.add(input);
+            System.out.print(input+"added to list");
+        }     
     }//GEN-LAST:event_addBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void rentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        input = TextField.getText();
+        if(input.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter a laptop ID");
+        }else{
+            laptop node = mySLL.findLaptop(input);
+            if (node == null) {
+                JOptionPane.showMessageDialog(this, "Laptop not found.");
+            } else if (!node.getAvailable()) {
+                JOptionPane.showMessageDialog(this, input + " is already rented.");
+            } else {
+                node.setAvailable(false);
+                JOptionPane.showMessageDialog(this, input + " rented successfully.");
+            }
+        }  
+    }//GEN-LAST:event_rentBtnActionPerformed
 
     private void TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextFieldActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        input = TextField.getText();
+        if(input.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter a laptop ID");
+        }else{
+            laptop node = mySLL.findLaptop(input);
+            if (node == null) {
+                JOptionPane.showMessageDialog(this, "Laptop not found.");
+            } else if (node.getAvailable()) {
+                JOptionPane.showMessageDialog(this, input + " is not currently rented out.");
+            } else {
+                node.setAvailable(true);
+                JOptionPane.showMessageDialog(this, input + " returned successfully.");
+            }
+        }  
+    }//GEN-LAST:event_returnBtnActionPerformed
 
     private void listBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listBtnActionPerformed
         // TODO add your handling code here:
@@ -133,10 +167,10 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TextField;
     private javax.swing.JButton addBtn;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton listBtn;
+    private javax.swing.JButton rentBtn;
+    private javax.swing.JButton returnBtn;
     // End of variables declaration//GEN-END:variables
 }

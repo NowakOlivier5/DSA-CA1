@@ -9,12 +9,14 @@ package dsa.ca1;
  * @author Olivier
  */
 public class laptop {
-        private Object element;
+    private Object element;
     private laptop next;
+    private boolean available;
 
     public laptop(Object inElement, laptop inNode) {
         element = inElement;
         next = inNode;
+        this.available = true; // available by default
     }
 
     public laptop getNext() {
@@ -32,9 +34,16 @@ public class laptop {
     public void setElement(Object inElement) {
         element = inElement;
     }
+     public boolean getAvailable() {
+    return available;
+}
 
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+    @Override
     public String toString() {
-        return element.toString();
+        return element.toString() + " | Available: " + available; //return id plus availability
     }
 }
 
