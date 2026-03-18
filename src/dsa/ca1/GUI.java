@@ -20,11 +20,11 @@ public class GUI extends javax.swing.JFrame {
     private rentalHistory historyStack;
     queueInterface queue = new laptopQueue();
     
-    public GUI(laptopList list) { //recieve list when coming back
+    public GUI(laptopList list, rentalHistory historyStack) { //recieve list when coming back
         initComponents();
         setLocationRelativeTo(null); //centres window
         this.mySLL = list;
-        this.historyStack = new rentalHistory();
+        this.historyStack = historyStack;
     }
 
     /**
@@ -170,7 +170,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void listBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listBtnActionPerformed
         // TODO add your handling code here:
-        listGUI myGUI = new listGUI((laptopList)mySLL); //switch window to listgui and pass list
+        listGUI myGUI = new listGUI((laptopList)mySLL, historyStack); //switch window to listgui and pass list
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_listBtnActionPerformed
@@ -195,26 +195,11 @@ public class GUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> { laptopList list = new laptopList(); new GUI(list).setVisible(true);
-});
+    java.awt.EventQueue.invokeLater(() -> { 
+        laptopList list = new laptopList();      
+        rentalHistory history = new rentalHistory(); 
+        new GUI(list, history).setVisible(true);
+    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -65,7 +65,7 @@ public class historyGUI extends javax.swing.JFrame {
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
-        GUI myGUI = new GUI(myList); //switch window to main menu
+        GUI myGUI = new GUI(myList, history); //switch window to main menu
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed

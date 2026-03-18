@@ -15,12 +15,14 @@ public class listGUI extends javax.swing.JFrame {
     /**
      * Creates new form listGUI
      */
-    private laptopList myList;
+    private laptopList myList;// to keep list saved between windows
+    private rentalHistory history;// to keep same history stack
     
-    public listGUI(laptopList mySLL) { //recieve list
+    public listGUI(laptopList mySLL, rentalHistory historyStack) { //recieve list
         initComponents();
         setLocationRelativeTo(null); //centres window
         this.myList = mySLL;
+        this.history = historyStack;
         listDisplay.setText(myList.getList());
     }
     
@@ -68,7 +70,7 @@ public class listGUI extends javax.swing.JFrame {
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
-        GUI myGUI = new GUI(myList); //switch window to main menu
+        GUI myGUI = new GUI(myList, history); //switch window to main menu
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
