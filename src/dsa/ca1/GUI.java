@@ -15,8 +15,10 @@ public class GUI extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUI.class.getName());
 
     String input;
+    String username;
     listInterface mySLL = new laptopList();
     private rentalHistory historyStack;
+    queueInterface queue = new laptopQueue();
     
     public GUI(laptopList list) { //recieve list when coming back
         initComponents();
@@ -42,6 +44,9 @@ public class GUI extends javax.swing.JFrame {
         listBtn = new javax.swing.JButton();
         historyBtn = new javax.swing.JButton();
         queueBtn = new javax.swing.JButton();
+        nameTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(640, 480));
@@ -58,7 +63,7 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().add(rentBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 100, 30));
 
         TextField.addActionListener(this::TextFieldActionPerformed);
-        getContentPane().add(TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 340, 30));
+        getContentPane().add(TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 340, 30));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 48)); // NOI18N
         jLabel1.setText("Laptop Rental");
@@ -77,7 +82,17 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().add(historyBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 110, 30));
 
         queueBtn.setText("Check Queue");
+        queueBtn.addActionListener(this::queueBtnActionPerformed);
         getContentPane().add(queueBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 370, 110, 30));
+
+        nameTextField.addActionListener(this::nameTextFieldActionPerformed);
+        getContentPane().add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 340, 30));
+
+        jLabel2.setText("Name:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
+
+        jLabel3.setText("Laptop ID:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -85,11 +100,16 @@ public class GUI extends javax.swing.JFrame {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         input = TextField.getText();
+        username = nameTextField.getText();
         if(input.isEmpty()){
             JOptionPane.showMessageDialog(this, "Enter a laptop ID");
+        }else if(username.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter your name.");
+        }else if(mySLL.findLaptop(input) != null){
+           JOptionPane.showMessageDialog(this, "Laptop already exists.");
         }else{
             mySLL.add(input);
-            historyStack.push("Laptop ID: " + input + " added.");
+            historyStack.push("Laptop ID: " + input + " added successfully by " + username + ".");
             JOptionPane.showMessageDialog(this,"Laptop ID: " + input + " added.");
         }     
     }//GEN-LAST:event_addBtnActionPerformed
@@ -97,18 +117,23 @@ public class GUI extends javax.swing.JFrame {
     private void rentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentBtnActionPerformed
         // TODO add your handling code here:
         input = TextField.getText();
+        username = nameTextField.getText();
         if(input.isEmpty()){
             JOptionPane.showMessageDialog(this, "Enter a laptop ID");
         }else{
             laptop node = mySLL.findLaptop(input);
             if (node == null) {
                 JOptionPane.showMessageDialog(this, "Laptop not found.");
-            } else if (!node.getAvailable()) {
-                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " is already rented.");
-            } else {
+            }else if(username.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter your name.");
+            }else if (!node.getAvailable()) {
+                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " is already rented. Joining Queue.");
+                queue.enqueue("Laptop ID:" + input + " queued for " + username + ".");
+                historyStack.push("User " + username + "added to waiting queue: Current Queue" + queue.size() + ".");
+            }else {
                 node.setAvailable(false);
-                historyStack.push("Laptop ID: " + input + " rented.");
-                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " rented successfully.");
+                historyStack.push("Laptop ID: " + input + " rented for " + username + ".");
+                JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " rented successfully by " + username + ".");
             }
         }  
     }//GEN-LAST:event_rentBtnActionPerformed
@@ -126,12 +151,19 @@ public class GUI extends javax.swing.JFrame {
             laptop node = mySLL.findLaptop(input);
             if (node == null) {
                 JOptionPane.showMessageDialog(this, "Laptop not found.");
-            } else if (node.getAvailable()) {
+            }else if(username.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Enter your name.");
+            }else if (node.getAvailable()) {
                 JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " is not currently rented out.");
-            } else {
+            }else {
                 node.setAvailable(true);
-                historyStack.push("Laptop ID: " + input + " returned.");
+                historyStack.push("Laptop ID: " + input + " returned successfully by " + username + ".");
                 JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " returned successfully.");
+                if(queue.size() > 0){
+                    node.setAvailable(false); //if someone is waiting immediatley book again
+                    historyStack.push("Laptop ID: " + input + " automatically rented to next in queue");
+                    JOptionPane.showMessageDialog(this,"Laptop ID: " +  input + " automatically rented to next in queue.");
+                }
             }
         }  
     }//GEN-LAST:event_returnBtnActionPerformed
@@ -149,6 +181,15 @@ public class GUI extends javax.swing.JFrame {
         myGUI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_historyBtnActionPerformed
+
+    private void queueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueBtnActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, queue.displayQueue());
+    }//GEN-LAST:event_queueBtnActionPerformed
+
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +222,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton addBtn;
     private javax.swing.JButton historyBtn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JButton listBtn;
+    private javax.swing.JTextField nameTextField;
     private javax.swing.JButton queueBtn;
     private javax.swing.JButton rentBtn;
     private javax.swing.JButton returnBtn;
